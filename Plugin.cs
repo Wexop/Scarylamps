@@ -25,6 +25,9 @@ namespace ScaryLamps
         public ConfigEntry<string> spawnMoonRarity;
         public ConfigEntry<int> scaryLampDamage;
 
+        public ConfigEntry<string> MonsterDetectorspawnRarity;
+        public ConfigEntry<float> MonsterDetectorRange;
+
         public static ScaryLampsPlugin instance;
 
         void Awake()
@@ -41,6 +44,7 @@ namespace ScaryLamps
             NetcodePatcher();
             LoadConfigs();
             RegisterMonster(bundle);
+            RegisterScrap(bundle);
             
             
             Logger.LogInfo($"ScaryLamps is ready!");
@@ -59,14 +63,24 @@ namespace ScaryLamps
             //GENERAL
             
             spawnMoonRarity = Config.Bind("ScaryLampRarity", "ScaryLampRarity", 
-                RarityString(40),           
+                RarityString(50),           
                 "Chance for Scary Lamp to spawn for any moon, example => assurance:100,offense:50 . You need to restart the game.");
             CreateStringConfig(spawnMoonRarity, true);
             
             scaryLampDamage = Config.Bind("ScaryLampRarity", "ScaryLampDamage", 
-                10,           
+                5,           
                 "Damage for each tick of ScaryLamp attack . No need to restart the game.");
             CreateIntConfig(scaryLampDamage, 1, 100);
+            
+            //Monster Detector
+            MonsterDetectorspawnRarity = Config.Bind("MonsterDetectorLamp", "MonsterDetectorSpawnRarity", 
+                RarityString(40),           
+                "Chance for Monster Detector Lamp to spawn for any moon, example => assurance:100,offense:50 . You need to restart the game.");
+            CreateStringConfig(MonsterDetectorspawnRarity, true);
+            MonsterDetectorRange = Config.Bind("MonsterDetectorLamp", "MonsterDetectorRange", 
+                35f,           
+                "Monster Detector Lamp detection range. No need to restart the game.");
+            CreateFloatConfig(MonsterDetectorRange, 0, 200);
  
         }
         
@@ -89,6 +103,21 @@ namespace ScaryLamps
             
             
             RegisterUtil.RegisterEnemyWithConfig(spawnMoonRarity.Value, scaryLamp,terminalNodeScaryLamp , terminalKeywordScaryLamp, scaryLamp.PowerLevel, scaryLamp.MaxCount);
+        }
+        
+                
+        void RegisterScrap(AssetBundle bundle)
+        {
+            //smalleyes
+            Item LampMonsterDetector = bundle.LoadAsset<Item>("Assets/LethalCompany/Mods/ScaryLamps/LampMonsterDetector/LampMonsterDetector.asset");
+            Logger.LogInfo($"{LampMonsterDetector.name} FOUND");
+            Logger.LogInfo($"{LampMonsterDetector.spawnPrefab} prefab");
+            NetworkPrefabs.RegisterNetworkPrefab(LampMonsterDetector.spawnPrefab);
+            Utilities.FixMixerGroups(LampMonsterDetector.spawnPrefab);
+
+
+            RegisterUtil.RegisterScrapWithConfig(MonsterDetectorspawnRarity.Value, LampMonsterDetector ); 
+
         }
         
         /// <summary>
