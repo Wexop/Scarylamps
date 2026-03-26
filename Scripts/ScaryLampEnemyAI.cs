@@ -66,7 +66,7 @@ public class ScaryLampEnemyAI : EnemyAI
         walkSoundTimer -= Time.deltaTime;
 
         //WALKSOUNDS
-        if (walkSoundTimer <= 0f)
+        if (walkSoundTimer <= 0f && currentBehaviourStateIndex == 0 )
         {
             var randomSound = walkSounds[Random.Range(0, walkSounds.Count)];
             creatureSFX.PlayOneShot(randomSound);
@@ -116,7 +116,7 @@ public class ScaryLampEnemyAI : EnemyAI
                     StartSearch(ChooseFarthestNodeFromPosition(transform.position, true).position, aiSearchRoutine);
                 }
 
-                if (targetPlayer)
+                if (targetPlayer && PlayerIsTargetable(targetPlayer))
                 {
                     transform.LookAt(targetPlayer.gameplayCamera.transform);
                     transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);

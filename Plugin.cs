@@ -27,6 +27,9 @@ namespace ScaryLamps
 
         public ConfigEntry<string> MonsterDetectorspawnRarity;
         public ConfigEntry<float> MonsterDetectorRange;
+        
+        public ConfigEntry<string> streetLampSpawnRarity;
+
 
         public static ScaryLampsPlugin instance;
 
@@ -62,12 +65,12 @@ namespace ScaryLamps
             
             //GENERAL
             
-            spawnMoonRarity = Config.Bind("ScaryLampRarity", "ScaryLampRarity", 
+            spawnMoonRarity = Config.Bind("ScaryLamp", "ScaryLampRarity", 
                 RarityString(50),           
                 "Chance for Scary Lamp to spawn for any moon, example => assurance:100,offense:50 . You need to restart the game.");
             CreateStringConfig(spawnMoonRarity, true);
             
-            scaryLampDamage = Config.Bind("ScaryLampRarity", "ScaryLampDamage", 
+            scaryLampDamage = Config.Bind("ScaryLamp", "ScaryLampDamage", 
                 5,           
                 "Damage for each tick of ScaryLamp attack . No need to restart the game.");
             CreateIntConfig(scaryLampDamage, 1, 100);
@@ -81,6 +84,13 @@ namespace ScaryLamps
                 35f,           
                 "Monster Detector Lamp detection range. No need to restart the game.");
             CreateFloatConfig(MonsterDetectorRange, 0, 200);
+            
+            //StreetLamp
+            
+            streetLampSpawnRarity = Config.Bind("StreetLamp", "streetLampSpawnRarity", 
+                RarityString(50),           
+                "Chance for Street Lamp to spawn for any moon, example => assurance:100,offense:50 . You need to restart the game.");
+            CreateStringConfig(streetLampSpawnRarity, true);
  
         }
         
@@ -103,6 +113,24 @@ namespace ScaryLamps
             
             
             RegisterUtil.RegisterEnemyWithConfig(spawnMoonRarity.Value, scaryLamp,terminalNodeScaryLamp , terminalKeywordScaryLamp, scaryLamp.PowerLevel, scaryLamp.MaxCount);
+            
+            //Street Lamp
+            EnemyType streetLamp = bundle.LoadAsset<EnemyType>("Assets/LethalCompany/Mods/ScaryLamps/StreetLampMonster/ScaryStreetLamp.asset");
+            
+            Logger.LogInfo($"{streetLamp.name} FOUND");
+            Logger.LogInfo($"{streetLamp.enemyPrefab} prefab");
+            NetworkPrefabs.RegisterNetworkPrefab(streetLamp.enemyPrefab);
+            Utilities.FixMixerGroups(streetLamp.enemyPrefab);
+            
+            TerminalNode terminalNodestreetLamp = new TerminalNode();
+            terminalNodestreetLamp.creatureName = "ScaryLamp";
+            terminalNodestreetLamp.displayText = "Don't wake him, or he will be very angry...";
+
+            TerminalKeyword terminalKeywordstreetLamp = new TerminalKeyword();
+            terminalKeywordstreetLamp.word = "ScaryLamp";
+            
+            
+            RegisterUtil.RegisterEnemyWithConfig(streetLampSpawnRarity.Value, streetLamp,terminalNodestreetLamp , terminalKeywordstreetLamp, streetLamp.PowerLevel, streetLamp.MaxCount);
         }
         
                 
