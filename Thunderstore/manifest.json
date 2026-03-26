@@ -2,7 +2,7 @@
   "name": "ScaryLamps",
   "version_number": "1.0.0",
   "website_url": "https://github.com/Wexop/ScaryLamps",
-  "description": "Add lamps in the game with different behaviors",
+  "description": "Add lamps in the game with different behaviors. Monsters and scraps, they're flashy !",
   "dependencies": [
     "BepInEx-BepInExPack-5.4.2100",
     "AinaVT-LethalConfig-1.4.6",
