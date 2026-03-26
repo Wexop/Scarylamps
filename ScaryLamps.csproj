@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <AssemblyName>ModTemplate</AssemblyName>
-        <Description>ModTemplate</Description>
+        <AssemblyName>ScaryLamps</AssemblyName>
+        <Description>ScaryLamps</Description>
         <Version>1.0.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
@@ -43,6 +43,12 @@
       <Reference Include="Xilophor.StaticNetcodeLib">
         <HintPath>..\DEPENDENCES\STATICNETCODELIB\BepInEx\plugins\StaticNetcodeLib\Xilophor.StaticNetcodeLib.dll</HintPath>
       </Reference>
+        <Reference Include="Unity.RenderPipelines.Core.Runtime">
+            <HintPath>D:\SteamLibrary\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime">
+            <HintPath>D:\SteamLibrary\steamapps\common\Lethal Company\Lethal Company_Data\Managed\Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <!-- Run Evaisa's Netcode patcher after building (https://github.com/EvaisaDev/UnityNetcodePatcher) -->

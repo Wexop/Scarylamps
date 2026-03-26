@@ -10,6 +10,7 @@ using LethalConfig.ConfigItems;
 using LethalConfig.ConfigItems.Options;
 using UnityEngine;
 using LethalLib.Modules;
+using ScaryLamps.Utils;
 
 namespace ScaryLamps
 {
@@ -20,6 +21,9 @@ namespace ScaryLamps
         const string GUID = "wexop.scary_lamps";
         const string NAME = "ScaryLamps";
         const string VERSION = "1.0.0";
+        
+        public ConfigEntry<string> spawnMoonRarity;
+        public ConfigEntry<int> scaryLampDamage;
 
         public static ScaryLampsPlugin instance;
 
@@ -36,7 +40,7 @@ namespace ScaryLamps
             
             NetcodePatcher();
             LoadConfigs();
-            RegisterScrap(bundle);
+            RegisterMonster(bundle);
             
             
             Logger.LogInfo($"ScaryLamps is ready!");
@@ -45,7 +49,7 @@ namespace ScaryLamps
         string RarityString(int rarity)
         {
             return
-                $"Modded:{rarity},ExperimentationLevel:{rarity},AssuranceLevel:{rarity},VowLevel:{rarity},OffenseLevel:{rarity},MarchLevel:{rarity},RendLevel:{rarity},DineLevel:{rarity},TitanLevel:{rarity},Adamance:{rarity},Embrion:{rarity},Artifice:{rarity}";
+                $"Modded:{rarity},ExperimentationLevel:{rarity},AssuranceLevel:{rarity},VowLevel:{rarity},OffenseLevel:{rarity},MarchLevel:{rarity},RendLevel:{rarity},DineLevel:{rarity},TitanLevel:{rarity},Adamance:{rarity},Embrion:{rarity},Artifice:{rarity},All:{rarity}";
 
         }
 
@@ -54,16 +58,37 @@ namespace ScaryLamps
             
             //GENERAL
             
-            //spawnMoonRarity = Config.Bind("General", "ScrapSpawnRarity", 
-            //    RarityString(40),           
-            //    "Chance for scrap to spawn for any moon, example => assurance:100,offense:50 . You need to restart the game.");
-            //CreateStringConfig(spawnMoonRarity, true);
+            spawnMoonRarity = Config.Bind("ScaryLampRarity", "ScaryLampRarity", 
+                RarityString(40),           
+                "Chance for Scary Lamp to spawn for any moon, example => assurance:100,offense:50 . You need to restart the game.");
+            CreateStringConfig(spawnMoonRarity, true);
+            
+            scaryLampDamage = Config.Bind("ScaryLampRarity", "ScaryLampDamage", 
+                10,           
+                "Damage for each tick of ScaryLamp attack . No need to restart the game.");
+            CreateIntConfig(scaryLampDamage, 1, 100);
  
         }
         
-        void RegisterScrap(AssetBundle bundle)
+        void RegisterMonster(AssetBundle bundle)
         {
+            //Scary Lamp
+            EnemyType scaryLamp = bundle.LoadAsset<EnemyType>("Assets/LethalCompany/Mods/ScaryLamps/LampMonster/ScaryLamp.asset");
+            
+            Logger.LogInfo($"{scaryLamp.name} FOUND");
+            Logger.LogInfo($"{scaryLamp.enemyPrefab} prefab");
+            NetworkPrefabs.RegisterNetworkPrefab(scaryLamp.enemyPrefab);
+            Utilities.FixMixerGroups(scaryLamp.enemyPrefab);
+            
+            TerminalNode terminalNodeScaryLamp = new TerminalNode();
+            terminalNodeScaryLamp.creatureName = "ScaryLamp";
+            terminalNodeScaryLamp.displayText = "Don't wake him, or he will be very angry...";
 
+            TerminalKeyword terminalKeywordScaryLamp = new TerminalKeyword();
+            terminalKeywordScaryLamp.word = "ScaryLamp";
+            
+            
+            RegisterUtil.RegisterEnemyWithConfig(spawnMoonRarity.Value, scaryLamp,terminalNodeScaryLamp , terminalKeywordScaryLamp, scaryLamp.PowerLevel, scaryLamp.MaxCount);
         }
         
         /// <summary>
