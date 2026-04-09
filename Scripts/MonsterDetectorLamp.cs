@@ -13,6 +13,9 @@ public class MonsterDetectorLamp: MonoBehaviour
 
     private int currentState = 0;
 
+    private float checkTimer;
+    private float checkDelay = 0.2f;
+
     private void OnChangeState(int newState)
     {
         greenObject.SetActive(newState == 0);
@@ -35,8 +38,13 @@ public class MonsterDetectorLamp: MonoBehaviour
 
     private void Update()
     {
+        checkTimer -= Time.deltaTime;
+        
+        if(checkTimer > 0)return;
+        checkTimer = checkDelay;
+        
         float distance = ScaryLampsPlugin.instance.MonsterDetectorRange.Value + 1;
-        FindObjectsByType<EnemyAI>(FindObjectsSortMode.None).ToList().ForEach(ai =>
+        RoundManager.Instance.SpawnedEnemies.ToList().ForEach(ai =>
         {
             float monsterDistance = Vector3.Distance(ai.transform.position, transform.position);
             if ( monsterDistance < distance && !ai.isEnemyDead)

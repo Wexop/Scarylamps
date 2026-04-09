@@ -20,7 +20,7 @@ namespace ScaryLamps
 
         const string GUID = "wexop.scary_lamps";
         const string NAME = "ScaryLamps";
-        const string VERSION = "1.0.0";
+        const string VERSION = "1.0.1";
         
         public ConfigEntry<string> spawnMoonRarity;
         public ConfigEntry<int> scaryLampDamage;
