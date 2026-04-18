@@ -35,7 +35,7 @@ public class ScaryLampEnemyAI : EnemyAI
 
     private float walkSoundTimer;
     private float visionWidth = 100f;
-
+    
     public override void Start()
     {
         base.Start();
@@ -73,9 +73,11 @@ public class ScaryLampEnemyAI : EnemyAI
             walkSoundTimer = currentBehaviourStateIndex == 1 ? walkSoundDelayRun : walkSoundDelayWalk;
         }
 
-        if (currentBehaviourStateIndex == 1 &&
+        if (currentBehaviourStateIndex == 1 
+            &&
             GameNetworkManager.Instance.localPlayerController.HasLineOfSightToPosition(
-                transform.position + Vector3.up * 0.25f, visionWidth, 60))
+                transform.position + Vector3.up * 0.25f, visionWidth, 60) 
+            && Vector3.Distance(GameNetworkManager.Instance.localPlayerController.transform.position, transform.position) <= ScaryLampsPlugin.instance.scaryLampRange.Value)
         {
             volumeWeightTimer = volumeWeightDelay;
             if (attackPlayerTimer <= 0)
@@ -116,7 +118,7 @@ public class ScaryLampEnemyAI : EnemyAI
                     StartSearch(ChooseFarthestNodeFromPosition(transform.position, true).position, aiSearchRoutine);
                 }
 
-                if (targetPlayer && PlayerIsTargetable(targetPlayer))
+                if (targetPlayer && PlayerIsTargetable(targetPlayer) && Vector3.Distance(targetPlayer.transform.position, transform.position) <= ScaryLampsPlugin.instance.scaryLampRange.Value)
                 {
                     transform.LookAt(targetPlayer.gameplayCamera.transform);
                     transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
@@ -130,7 +132,7 @@ public class ScaryLampEnemyAI : EnemyAI
             case 1:
             {
                 TargetClosestPlayer(requireLineOfSight: true, viewWidth: visionWidth);
-                if (!targetPlayer)
+                if (!targetPlayer || Vector3.Distance(targetPlayer.transform.position, transform.position) > ScaryLampsPlugin.instance.scaryLampRange.Value)
                 {
                     SwitchToBehaviourState(0);
                 }

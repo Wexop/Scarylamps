@@ -1,6 +1,6 @@
 {
   "name": "ScaryLamps",
-  "version_number": "1.0.1",
+  "version_number": "1.0.2",
   "website_url": "https://github.com/Wexop/ScaryLamps",
   "description": "Add lamps in the game with different behaviors. Monsters and scraps, they're flashy !",
   "dependencies": [

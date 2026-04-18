@@ -20,10 +20,11 @@ namespace ScaryLamps
 
         const string GUID = "wexop.scary_lamps";
         const string NAME = "ScaryLamps";
-        const string VERSION = "1.0.1";
+        const string VERSION = "1.0.2";
         
         public ConfigEntry<string> spawnMoonRarity;
         public ConfigEntry<int> scaryLampDamage;
+        public ConfigEntry<float> scaryLampRange;
 
         public ConfigEntry<string> MonsterDetectorspawnRarity;
         public ConfigEntry<float> MonsterDetectorRange;
@@ -63,7 +64,7 @@ namespace ScaryLamps
         void LoadConfigs()
         {
             
-            //GENERAL
+            //ScaryLamp
             
             spawnMoonRarity = Config.Bind("ScaryLamp", "ScaryLampRarity", 
                 RarityString(50),           
@@ -72,8 +73,13 @@ namespace ScaryLamps
             
             scaryLampDamage = Config.Bind("ScaryLamp", "ScaryLampDamage", 
                 5,           
-                "Damage for each tick of ScaryLamp attack . No need to restart the game.");
+                "Damage for each tick of ScaryLamp attack. No need to restart the game.");
             CreateIntConfig(scaryLampDamage, 1, 100);
+            
+            scaryLampRange = Config.Bind("ScaryLamp", "scaryLampRange", 
+                20f,           
+                "Range of ScaryLamp attack. No need to restart the game.");
+            CreateFloatConfig(scaryLampRange, 1, 100);
             
             //Monster Detector
             MonsterDetectorspawnRarity = Config.Bind("MonsterDetectorLamp", "MonsterDetectorSpawnRarity", 

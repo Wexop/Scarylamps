@@ -1,5 +1,9 @@
 # Changelog
 
+### v1.0.2
+
+- Add a range limit to ScaryLamp (could damage a player from too far)
+
 ### v1.0.1
 
 - Rebuild for v81
