@@ -2,7 +2,8 @@
 
 ### v1.0.2
 
-- Add a range limit to ScaryLamp (could damage a player from too far)
+- Add a range limit to ScaryLamp (it could damage a player from too far)
+- After killing ScaryLamp, the head become a scrap item. You can use it as a light and sell it
 
 ### v1.0.1
 

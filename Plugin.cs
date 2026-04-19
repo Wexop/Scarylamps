@@ -142,7 +142,7 @@ namespace ScaryLamps
                 
         void RegisterScrap(AssetBundle bundle)
         {
-            //smalleyes
+            //LampMonsterDetector
             Item LampMonsterDetector = bundle.LoadAsset<Item>("Assets/LethalCompany/Mods/ScaryLamps/LampMonsterDetector/LampMonsterDetector.asset");
             Logger.LogInfo($"{LampMonsterDetector.name} FOUND");
             Logger.LogInfo($"{LampMonsterDetector.spawnPrefab} prefab");
@@ -151,6 +151,16 @@ namespace ScaryLamps
 
 
             RegisterUtil.RegisterScrapWithConfig(MonsterDetectorspawnRarity.Value, LampMonsterDetector ); 
+            
+            //lampScrap
+            Item lampScrap = bundle.LoadAsset<Item>("Assets/LethalCompany/Mods/ScaryLamps/Scraps/Lamp.asset");
+            Logger.LogInfo($"{lampScrap.name} FOUND");
+            Logger.LogInfo($"{lampScrap.spawnPrefab} prefab");
+            NetworkPrefabs.RegisterNetworkPrefab(lampScrap.spawnPrefab);
+            Utilities.FixMixerGroups(lampScrap.spawnPrefab);
+
+
+            RegisterUtil.RegisterScrapWithConfig("", lampScrap ); 
 
         }
         

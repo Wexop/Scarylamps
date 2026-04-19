@@ -10,7 +10,10 @@ For any issue or suggestion, feel free to open an issue on the GitHub project !
 It walks around like any monster. If it sees a player, it will stop walking and flash the player, this will hit the player every seconds.
 It can die, it has 3 hp.
 
+If it die, the head become a scrap that you can use as a light and sell it. 
+
 ![](https://github.com/Wexop/Scarylamps/blob/master/Images/ScaryLamp.png?raw=true?raw=true)
+![](https://github.com/Wexop/Scarylamps/blob/master/Images/LampScrap.png?raw=true?raw=true)
 
 
 ## Sreet Lamp Monster
