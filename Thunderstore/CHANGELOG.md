@@ -1,5 +1,9 @@
 # Changelog
 
+### v1.0.3
+
+- Fix an issue where MonsterDetectorLamp throw an error
+
 ### v1.0.2
 
 - Add a range limit to ScaryLamp (it could damage a player from too far)
