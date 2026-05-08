@@ -44,10 +44,12 @@ public class MonsterDetectorLamp: MonoBehaviour
         checkTimer = checkDelay;
         
         float distance = ScaryLampsPlugin.instance.MonsterDetectorRange.Value + 1;
-        RoundManager.Instance.SpawnedEnemies.ToList().ForEach(ai =>
+        RoundManager.Instance.SpawnedEnemies.FindAll(e => !e.isEnemyDead).ForEach(ai =>
         {
+            if (!ai || !ai.transform  ) return;
+
             float monsterDistance = Vector3.Distance(ai.transform.position, transform.position);
-            if ( monsterDistance < distance && !ai.isEnemyDead)
+            if ( monsterDistance < distance)
             {
                 distance = monsterDistance;
             }
